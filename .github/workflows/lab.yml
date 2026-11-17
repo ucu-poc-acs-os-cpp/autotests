@@ -2,12 +2,13 @@
 #   jobs:
 #     test:
 #       uses: ucu-poc-acs-os-cpp/autotests/.github/workflows/lab.yml@main
-#       with: { lab: "acs integral-parallel", ia: "f4", variant: "" }
+#       with: { ia: "f4" }                  # the lab is detected; or: { lab: "acs integral-parallel" }
 name: lab
 on:
   workflow_call:
     inputs:
-      lab: { required: true, type: string, description: "e.g. poc asm | acs words-par" }
+      lab: { required: false, type: string, default: "auto", description: "'auto' (from the CMake project name / repository name) or e.g. 'poc asm' | 'acs words-par'" }
+      packages: { required: false, type: string, default: "", description: "apt packages the lab needs, e.g. 'libicu-dev libboost-locale-dev libarchive-dev'" }
       variant: { required: false, type: string, default: "" }
       ia: { required: false, type: string, default: "", description: "additional tasks, comma separated, or all" }
       args: { required: false, type: string, default: "", description: "extra labtest options (--exe ..., --orig ...)" }
@@ -17,6 +18,9 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
+      - name: Install packages
+        if: inputs.packages != ''
+        run: sudo apt-get update && sudo apt-get install -y ${{ inputs.packages }}
       - name: Download labtest
         env: { GH_TOKEN: "${{ github.token }}" }
         run: |

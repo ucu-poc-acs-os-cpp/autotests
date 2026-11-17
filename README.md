@@ -48,7 +48,7 @@ labtest poc string1 --ia move,ops         # move semantics, + += * *=
 labtest acs integral-parallel --ia f4     # function 4
 labtest ... --ia                          # no list = all additional tasks of the lab
 ```
-`labtest list` shows the available names. For asm, additional task `X` is looked up in `<repo>/extra_X/src/func.s` (also `func_X`, `func_extra`).
+`labtest list` shows the available names. `labtest auto` runs the lab named by your CMake project (see GitHub Actions below). For asm, additional task `X` is looked up in `<repo>/extra_X/src/func.s` (also `func_X`, `func_extra`).
 
 ### Exit codes
 `0`: everything passed, `1`: some check failed, `2`: environment problem (missing compiler, file not found, ...).
@@ -68,8 +68,12 @@ In your lab repository:
 jobs:
   test:
     uses: ucu-poc-acs-os-cpp/autotests/.github/workflows/lab.yml@main
-    with: { lab: "acs integral-parallel", ia: "f4", variant: "" }
+    with: { ia: "f4" }          # optional: lab: "acs integral-parallel", variant: "5", packages: "libicu-dev ..."
 ```
+Without `lab` the lab is detected (`labtest auto`): from the CMake project name in `CMakeLists.txt`
+(`set(PROJECT_NAME lab8-words-count-parallel)`), else from the repository name, else from the folder name. The name must
+contain the lab name or its Classroom slug as whole words (`labtest list` shows the names). The variant is read from the
+`Variant: N` line of `README.md`; `labtest auto 5` overrides it.
 The workflow downloads the latest `labtest-linux`, runs it in the repository and stores `result.json` as an artifact.
 
 ### Interface contract of the `cpp` labs
