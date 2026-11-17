@@ -20,7 +20,7 @@ jobs:
       - name: Download labtest
         env: { GH_TOKEN: "${{ github.token }}" }
         run: |
-          gh release download ${{ inputs.release == 'latest' && '' || inputs.release }} --repo ucu-poc-acs-os-cpp/autotests --pattern labtest-linux --output labtest
+          gh release download ${{ inputs.release == 'latest' && '' || inputs.release }} --repo ucu-poc-acs-os-cpp/autotests --pattern labtest-linux-x64 --output labtest
           chmod +x labtest
       - name: Run tests
         run: |

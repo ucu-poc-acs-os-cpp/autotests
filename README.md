@@ -7,7 +7,15 @@ that `labtest` downloads on first use. The tester itself lives in the private `a
 
 ## For students
 
-Download `labtest-linux` / `labtest-windows.exe` / `labtest-macos` from the [releases](../../releases) and run it from your project directory:
+Download the binary for your system from the [releases](../../releases) and run it from your project directory
+(on Linux/macOS: `chmod +x` first):
+
+| System | x64 (Intel/AMD) | arm64 |
+|---|---|---|
+| Linux | `labtest-linux-x64` | `labtest-linux-arm64` |
+| Windows | `labtest-windows-x64.exe` | `labtest-windows-arm64.exe` |
+| macOS | `labtest-macos-x64` | `labtest-macos-arm64` (Apple Silicon) |
+
 
 ```
 labtest list                              # all labs
